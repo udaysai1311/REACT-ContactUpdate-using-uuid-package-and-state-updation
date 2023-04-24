@@ -1,0 +1,68 @@
+// Write your code here
+import {Component} from 'react'
+import Notification from '../Notification'
+
+const arr = [
+  {id: 1, play: 'cricket', displayButton: false},
+  {id: 2, play: 'football', displayButton: false},
+  {id: 3, play: 'art', displayButton: false},
+]
+
+class AlertNotifications extends Component {
+  state = {list: arr}
+
+  onSelect = id => {
+    this.setState(prevState => ({
+      list: prevState.list.map(eachItem => {
+        if (eachItem.id === id) {
+          return {...eachItem, displayButton: !eachItem.displayButton}
+        }
+        return eachItem
+      }),
+    }))
+  }
+
+  render() {
+    const {list} = this.state
+    return (
+      <div>
+        <ul>
+          {list.map(eachItem => (
+            <Notification
+              eachItem={eachItem}
+              key={eachItem.id}
+              checkboxSelected={this.onSelect}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+export default AlertNotifications
+
+
+
+
+
+
+// Write your code here
+const Notification = props => {
+  const {eachItem, checkboxSelected} = props
+  const {id, play, displayButton} = eachItem
+
+  console.log(displayButton)
+
+  const onCheckbox = () => {
+    checkboxSelected(id)
+  }
+
+  return (
+    <li>
+      <input type="checkbox" onClick={onCheckbox} />
+      <p>{play}</p>
+      {displayButton && <button type="button">x</button>}
+    </li>
+  )
+}
+export default Notification
